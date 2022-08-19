@@ -4,23 +4,24 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
 
-import static json_model.Courier.CourierClient.*;
+import static json_model.courier.CourierClient.*;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.equalTo;
 
 public class CourierDeleteTest {
     @Before
     public void setUp() {
         setUpAPI();
-        create(courierSasha);
+        createCourier(courierSasha);
     }
 
     @Test
     @DisplayName("Проверка удаления курьера ('/api/v1/courier/:id')")
     public void courierDelete() {
-        delete(courierSasha)
+        deleteCourier(courierSasha)
                 .then()
                 .assertThat().body("ok", equalTo(Boolean.TRUE))
                 .and()
-                .statusCode(200);
+                .statusCode(SC_OK);
     }
 }

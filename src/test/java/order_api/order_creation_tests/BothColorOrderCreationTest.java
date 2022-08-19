@@ -1,11 +1,11 @@
 package order_api.order_creation_tests;
 
-import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
 
-import static json_model.Order.OrderClient.*;
+import static json_model.order.OrderClient.*;
+import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class BothColorOrderCreationTest {
@@ -22,6 +22,6 @@ public class BothColorOrderCreationTest {
                 .then()
                 .assertThat().body("track", notNullValue())
                 .and()
-                .statusCode(201);
+                .statusCode(SC_CREATED);
     }
 }

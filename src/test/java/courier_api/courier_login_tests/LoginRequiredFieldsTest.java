@@ -2,14 +2,15 @@ package courier_api.courier_login_tests;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import json_model.Courier.Courier;
+import json_model.courier.Courier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import static json_model.Courier.CourierClient.*;
+import static json_model.courier.CourierClient.*;
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
@@ -33,7 +34,7 @@ public class LoginRequiredFieldsTest {
     @Before
     public void setUp() {
         setUpAPI();
-        create(courierSasha);
+        createCourier(courierSasha);
     }
 
     @Test
@@ -44,11 +45,11 @@ public class LoginRequiredFieldsTest {
                 .then()
                 .assertThat().body("message", equalTo("Недостаточно данных для входа"))
                 .and()
-                .statusCode(400);
+                .statusCode(SC_BAD_REQUEST);
     }
 
     @After
     public void courierCleanUp() {
-        delete(courierSasha);
+        deleteCourier(courierSasha);
     }
 }

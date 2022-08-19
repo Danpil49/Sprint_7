@@ -2,13 +2,14 @@ package courier_api.courier_creation_tests;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import json_model.Courier.Courier;
+import json_model.courier.Courier;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import static json_model.Courier.CourierClient.*;
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
+import static json_model.courier.CourierClient.*;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
@@ -41,12 +42,12 @@ public class CourierRequiredFieldsTest {
     @DisplayName("Параметризованный тест. Проверка создания курьера без заполненных обязательных полей (/api/v1/courier)")
     @Description("Должно выдать сообщение об ошибке 'Недостаточно данных для создания учетной записи' и статус код = 400")
     public void createCourierWithoutRequiredFields() {
-        create(new Courier(tempLogin, tempPassword, tempFirstName))
+        createCourier(new Courier(tempLogin, tempPassword, tempFirstName))
                 .then()
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
-                .statusCode(400);
+                .statusCode(SC_BAD_REQUEST);
     }
 
 }

@@ -8,14 +8,15 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static json_model.Courier.CourierClient.*;
+import static json_model.courier.CourierClient.*;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.hamcrest.Matchers.equalTo;
 
 public class CourierDeleteWithWrongIDTest {
     @Before
     public void setUp() {
         setUpAPI();
-        create(courierSasha);
+        createCourier(courierSasha);
     }
 
     @Test
@@ -23,16 +24,15 @@ public class CourierDeleteWithWrongIDTest {
     @Description("Должно выдать сообщение об ошибке 'Курьера с таким id нет.' и статус код = 404")
     public void courierDeleteWithWrongID() {
         String randomID = String.valueOf(((new Random()).nextInt(100_000_000)+10_000_000));
-        System.out.println(randomID);
-        wrongDelete(courierSasha, randomID)
+        deleteCourierManually(randomID)
                 .then()
                 .assertThat().body("message", equalTo("Курьера с таким id нет."))
                 .and()
-                .statusCode(404);
+                .statusCode(SC_NOT_FOUND);
     }
 
     @After
     public void cleanUp() {
-        delete(courierSasha);
+        deleteCourier(courierSasha);
     }
 }

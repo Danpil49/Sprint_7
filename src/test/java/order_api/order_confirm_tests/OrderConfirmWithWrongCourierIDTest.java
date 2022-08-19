@@ -2,13 +2,14 @@ package order_api.order_confirm_tests;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import json_model.Order.Order;
+import json_model.order.Order;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
 
-import static json_model.Order.OrderClient.*;
+import static json_model.order.OrderClient.*;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.hamcrest.Matchers.equalTo;
 
 public class OrderConfirmWithWrongCourierIDTest {
@@ -32,6 +33,6 @@ public class OrderConfirmWithWrongCourierIDTest {
                 .assertThat()
                 .body("message", equalTo("Курьера с таким id не существует"))
                 .and()
-                .statusCode(404);
+                .statusCode(SC_NOT_FOUND);
     }
 }

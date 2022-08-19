@@ -6,7 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static json_model.Courier.CourierClient.*;
+import static org.apache.http.HttpStatus.SC_CREATED;
+import static json_model.courier.CourierClient.*;
 import static org.hamcrest.Matchers.equalTo;
 
 public class UniqueCourierCreationTest {
@@ -20,15 +21,15 @@ public class UniqueCourierCreationTest {
     @DisplayName("Проверка создания курьера (/api/v1/courier)")
     @Description("Проверка создания курьера с полями: login = 'regular_courier', password = '1111', firstName = 'Sasha'")
     public void createUniqueCourier() {
-        create(courierSasha)
+        createCourier(courierSasha)
                 .then()
                 .assertThat().body("ok", equalTo(true))
                 .and()
-                .statusCode(201);
+                .statusCode(SC_CREATED);
     }
 
     @After
     public void courierCleanUp() {
-        delete(courierSasha);
+        deleteCourier(courierSasha);
     }
 }

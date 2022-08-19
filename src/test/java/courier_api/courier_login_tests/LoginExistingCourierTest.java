@@ -6,14 +6,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static json_model.Courier.CourierClient.*;
+import static json_model.courier.CourierClient.*;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class LoginExistingCourierTest {
     @Before
     public void setUp() {
         setUpAPI();
-        create(courierSasha);
+        createCourier(courierSasha);
     }
 
     @Test
@@ -24,11 +25,11 @@ public class LoginExistingCourierTest {
                 .then()
                 .assertThat().body("id", notNullValue())
                 .and()
-                .statusCode(200);
+                .statusCode(SC_OK);
     }
 
     @After
     public void courierCleanUp() {
-        delete(courierSasha);
+        deleteCourier(courierSasha);
     }
 }

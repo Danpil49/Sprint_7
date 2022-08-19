@@ -1,14 +1,15 @@
 package order_api.order_confirm_tests;
 
 import io.qameta.allure.junit4.DisplayName;
-import json_model.Courier.Courier;
-import json_model.Order.Order;
+import json_model.courier.Courier;
+import json_model.order.Order;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static json_model.Courier.CourierClient.*;
-import static json_model.Order.OrderClient.*;
+import static json_model.courier.CourierClient.*;
+import static json_model.order.OrderClient.*;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.equalTo;
 
 public class OrderSuccessfulConfirmTest {
@@ -22,7 +23,7 @@ public class OrderSuccessfulConfirmTest {
         setUpOrderAPI();
         Order order = createOrder(orderForNarutoWithoutColor).as(Order.class);
         orderId = getOrderIdByTrackStr(order);
-        create(courier);
+        createCourier(courier);
         courierId = String.valueOf(getCourierID(courier));
     }
 
@@ -34,11 +35,11 @@ public class OrderSuccessfulConfirmTest {
                 .assertThat()
                 .body("ok", equalTo(Boolean.TRUE))
                 .and()
-                .statusCode(200);
+                .statusCode(SC_OK);
     }
 
     @After
     public void courierCleanUp() {
-        delete(courierSasha);
+        deleteCourier(courierSasha);
     }
 }
